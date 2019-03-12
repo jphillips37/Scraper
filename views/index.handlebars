@@ -1,0 +1,35 @@
+<div class="container">
+    <button type="button" class="btn btn-dark">Scrape</button>
+    <div id="articles">
+        {{#each posts}}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{title}}</h5>
+                    <p class="card-text">{{body}}</p>
+                    <a href="{{link}}" class="card-link">Click Here</a>
+                    <div class="form-group">
+                        <label>Leave a comment</label>
+                        <textarea class="form-control" id="{{postId}}" rows="3"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-dark comment-btn" data-id="{{postId}}">Comment</button>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+    <script>
+        $('document').ready(function(){
+            $(document).on("click", "button.comment-btn", function(){
+            let thisId = $(this).attr("data-id");
+            console.log(thisId);
+
+            $.ajax({
+                method: "POST",
+                url: "./posts/" + thisId,
+                data: {
+                    body: $("#"+thisId).val()
+                }
+            })
+        })
+        })
+    </script>
+</div>
